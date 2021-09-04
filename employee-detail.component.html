@@ -1,0 +1,149 @@
+<h6 class="mt-3 p-2 border-bottom font-weight-bold">社員情報</h6>
+
+<div *ngIf="topErrMsg != null" class="alert alert-danger mb-1" role="alert">
+  {{topErrMsg}}
+</div>
+
+<div *ngIf="topSuccMsg != null" class="alert alert-success mb-1" role="alert">
+  {{topSuccMsg}}
+</div>
+
+<div *ngIf="topLoadingMsg != null" class="alert alert-light mb-1" role="alert">
+  {{topLoadingMsg}}
+</div>
+
+<div class="d-flex flex-row-reverse">
+  <div class="p-0">
+    <a href="/employee">社員一覧はこちら</a>
+  </div>
+</div>
+
+<form *ngIf="showForm" [formGroup]="form" (submit)="onSubmit($event)">
+  <div class="border mt-2">
+
+    <!-- お名前 -->
+    <div class="row border-bottom mx-0">
+      <div class="col-sm-3 border-right bg-grey align-middle py-2 d-flex align-items-center">氏名</div>
+      <div class="col-sm-9 px-0 py-0 row m-0">
+        <div *ngIf="mode == 0" class="col-md-8 p-0 row m-3">
+          {{form.value.lastName}} {{form.value.firstName}}</div>
+        <div *ngIf="mode != 0" class="col-md-4 p-0 row m-3">
+          <label class="m-0 pt-2">姓</label>
+          <div class="col ml-2 p-0">
+            <input [ngClass]="{'is-invalid': checkValid && !f.lastName.valid}" formControlName="lastName" type="text"
+              class="form-control form-control-sm" placeholder="例）山田">
+            <div *ngIf="checkValid && f.lastName.errors?.required" class="invalid-feedback">
+              {{msg.MSG_9038 | message}}
+            </div>
+            <div *ngIf="checkValid && f.lastName.errors?.maxlength" class="invalid-feedback">
+              {{msg.MSG_9039 | message}}
+            </div>
+          </div>
+        </div>
+        <div *ngIf="mode != 0" class="col-md-4 p-0 row m-3">
+          <label class="m-0 pt-2">名</label>
+          <div class="col ml-2 p-0">
+            <input [ngClass]="{'is-invalid': checkValid && !f.firstName.valid}" formControlName="firstName" type="text"
+              class="form-control form-control-sm" placeholder="例）太郎">
+            <div *ngIf="checkValid && f.firstName.errors?.required" class="invalid-feedback">
+              {{msg.MSG_9036 | message}}
+            </div>
+            <div *ngIf="checkValid && f.firstName.errors?.maxlength" class="invalid-feedback">
+              {{msg.MSG_9037 | message}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- お名前（フリガナ） -->
+    <div class="row border-bottom mx-0">
+      <div class="col-sm-3 border-right bg-grey align-middle py-2 d-flex align-items-center">氏名（フリガナ）</div>
+      <div class="col-sm-9 px-0 py-0 row m-0">
+        <div *ngIf="mode == 0" class="col-md-8 p-0 row m-3">
+          {{form.value.lastNameKana}} {{form.value.firstNameKana}}</div>
+        <div *ngIf="mode != 0" class="col-md-4 p-0 row m-3">
+          <label class="m-0 pt-2">セイ</label>
+          <div class="col ml-2 p-0">
+            <input [ngClass]="{'is-invalid': checkValid && !f.lastNameKana.valid}" formControlName="lastNameKana"
+              type="text" class="form-control form-control-sm" placeholder="例）ヤマダ">
+            <div *ngIf="checkValid && f.lastNameKana.errors?.required" class="invalid-feedback">
+              {{msg.MSG_9042 | message}}
+            </div>
+            <div *ngIf="checkValid && f.lastNameKana.errors?.maxlength" class="invalid-feedback">
+              {{msg.MSG_9043 | message}}
+            </div>
+          </div>
+        </div>
+        <div *ngIf="mode != 0" class="col-md-4 p-0 row m-3">
+          <label class="m-0 pt-2">メイ</label>
+          <div class="col ml-2 p-0">
+            <input [ngClass]="{'is-invalid': checkValid && !f.firstNameKana.valid}" formControlName="firstNameKana"
+              type="text" class="form-control form-control-sm" placeholder="例）タロウ">
+            <div *ngIf="checkValid && f.firstNameKana.errors?.required" class="invalid-feedback">
+              {{msg.MSG_9040 | message}}
+            </div>
+            <div *ngIf="checkValid && f.firstNameKana.errors?.maxlength" class="invalid-feedback">
+              {{msg.MSG_9041 | message}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Eメール -->
+    <div class="row border-bottom mx-0">
+      <div class="col-sm-3 border-right bg-grey align-middle py-2 d-flex align-items-center">メールアドレス</div>
+      <div class="col-sm-9 px-0 py-0 row m-0">
+        <div *ngIf="mode == 0" class="col-md-8 p-0 row m-3">
+          {{form.value.email}}</div>
+        <div *ngIf="mode != 0" class="col-md-8 p-0 row m-3">
+          <div class="col ml-2 p-0">
+            <input [ngClass]="{'is-invalid': checkValid && !f.email.valid}" formControlName="email" type="text"
+              class="form-control form-control-sm" placeholder="例）y_taro@mail.com">
+            <div *ngIf="checkValid && f.email.errors?.required" class="invalid-feedback">
+              {{msg.MSG_9044 | message}}
+            </div>
+            <div *ngIf="checkValid && f.email.errors?.maxlength" class="invalid-feedback">
+              {{msg.MSG_9045 | message}}
+            </div>
+            <div *ngIf="checkValid && f.email.errors?.email" class="invalid-feedback">
+              {{msg.MSG_9047 | message}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 生年月日 -->
+    <div class="row mx-0">
+      <div class="col-sm-3 border-right bg-grey align-middle py-2 d-flex align-items-center">生年月日</div>
+      <div class="col-sm-9 px-0 py-0 row m-0">
+        <div *ngIf="mode == 0" class="col-md-8 p-0 row m-3">
+          {{form.value.dateOfBirth}}</div>
+        <div *ngIf="mode != 0" class="col-md-8 p-0 row m-3">
+          <div class="col ml-2 p-0">
+            <input [ngClass]="{'is-invalid': checkValid && !f.dateOfBirth.valid}" formControlName="dateOfBirth" type="date"
+              class="form-control form-control-sm" placeholder="例）山田">
+            <div *ngIf="checkValid && f.dateOfBirth.errors?.required" class="invalid-feedback">
+              {{msg.MSG_9046 | message}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!-- ボタン -->
+
+  <div class="d-flex justify-content-center my-3">
+    <button type="submit" class="btn btn-primary btn-sm" *ngIf="mode == 0" (click)="edit()">編集</button>
+    <button type="submit" class="btn btn-primary btn-sm" *ngIf="mode != 0" (click)="save()" data-toggle="modal"
+    data-target="#create-confirm">保存</button>
+    <a href="employee/:id" class="btn btn-secondary ml-2" *ngIf="mode != 0" type="button">戻る</a>
+  </div>
+</form>
+
+<!-- モーダル -->
+<app-modal modalId="create-confirm" title="登録確認" message="新しい社員情報を保存します。よろしいでしょうか？" secondaryButtonText="キャンセル"
+  primaryButtonText="OK" (primaryAction)="onConfirm()"></app-modal>
